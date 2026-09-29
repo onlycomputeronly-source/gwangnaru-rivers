@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 | 광나루 리버스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-page">
+  <header class="admin-top"><a class="brand" href="index.html">GANGNARU <strong>RIVERS</strong></a><div><a class="admin-view" href="index.html">홈페이지 보기 ↗</a><button class="logout-btn hidden" id="logoutBtn">로그아웃</button></div></header>
+  <main class="admin-wrap">
+    <section class="admin-login" id="loginView"><div class="admin-title"><p class="kicker">ADMIN / LOGIN</p><h1>관리자 로그인</h1><p>등록된 관리자 계정으로 로그인하세요.</p></div><form id="loginForm" class="admin-card"><label>이메일<input id="loginEmail" type="email" autocomplete="email" required placeholder="관리자 이메일"></label><label>비밀번호<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="비밀번호"></label><button class="admin-primary" type="submit">로그인</button><p class="form-message" id="loginMessage" role="status"></p></form></section>
+
+    <section class="admin-dashboard hidden" id="dashboardView">
+      <div class="admin-title"><p class="kicker">ADMIN / MEETUPS</p><h1>모임 일정 관리</h1><p>여기에서 일정만 등록·수정하면 홈페이지와 모임 일정 페이지에 바로 반영됩니다.</p></div>
+      <div class="admin-grid">
+        <form id="meetupForm" class="admin-card">
+          <input type="hidden" id="editId">
+          <div class="card-heading"><h2 id="formTitle">새 일정 등록</h2><button type="button" class="text-button hidden" id="cancelEdit">수정 취소</button></div>
+          <div class="form-grid">
+            <label>날짜<input id="date" type="date" required></label>
+            <label>시간<input id="time" type="time" required></label>
+            <label>종류<select id="type"><option>정기 모임</option><option>번개 모임</option><option>친선 경기</option><option>연습 경기</option><option>기타</option></select></label>
+            <label>상태<select id="status"><option>예정</option><option>완료</option><option>취소</option></select></label>
+            <label class="full">장소<input id="place" type="text" required placeholder="광나루 야구장"></label>
+            <label class="full">제목<input id="title" type="text" required placeholder="일요일 야구 모임"></label>
+            <label class="full">설명<textarea id="note" rows="4" placeholder="캐치볼 · 수비 · 자유 타격"></textarea></label>
+          </div>
+          <button class="admin-primary" type="submit" id="saveBtn">일정 등록</button><p class="form-message" id="formMessage" role="status"></p>
+        </form>
+        <section class="admin-card"><div class="card-heading"><h2>등록된 일정</h2><span class="count-pill" id="meetupCount">0개</span></div><div id="adminList" class="admin-list"></div></section>
+      </div>
+      <section class="admin-help"><strong>관리 팁</strong><p>공개 홈페이지에는 완료된 일정도 표시됩니다. 필요 없는 일정은 삭제하고, 당일 변경은 수정 기능을 사용하세요.</p></section>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="광나루 리버스 모임 일정"><title>모임 일정 | 광나루 리버스</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
+</head>
+<body class="subpage">
+  <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><div class="menu-label">MENU</div><div class="menu-backdrop" id="menuBackdrop"></div>
+  <aside class="side-menu" id="sideMenu" aria-hidden="true"><div class="side-menu-top"><p class="mini-brand">GANGNARU RIVERS</p><button class="menu-close" id="menuClose" aria-label="메뉴 닫기">×</button></div><nav><a href="index.html"><span>01</span> 홈</a><a class="active" href="meetups.html"><span>02</span> 모임 일정</a><a href="https://onlycomputeronly-source.github.io/gwangnaru-rivers-join/" target="_blank" rel="noopener"><span>03</span> 가입 문의</a></nav><div class="side-menu-bottom"><p>모임이 중심이고,<br>경기는 가끔.</p><small>© 2026 GANGNARU RIVERS</small></div></aside>
+  <header class="topbar"><a class="brand" href="index.html">GANGNARU <strong>RIVERS</strong></a><div class="topbar-right">02 / MEETUPS</div></header>
+  <main>
+    <section class="sub-hero"><div><p class="kicker">02 / MEETUP SCHEDULE</p><h1>모임 일정</h1><p>광나루 리버스의 중심은 경기보다 모임입니다.<br>정기 모임과 번개 모임을 이곳에서 확인하세요.</p></div><div class="sub-hero-mark">MEET<br>UP</div></section>
+    <section class="schedule-section"><div class="schedule-head"><div><p class="kicker">UPCOMING</p><h2>예정된 모임</h2></div><p class="schedule-hint" id="dataHint">공개 일정은 관리자 페이지에서 등록됩니다.</p></div><div class="meetup-list" id="meetupList"><div class="empty-state">일정을 불러오는 중입니다…</div></div>
+      <div class="schedule-guide"><div class="guide-title">모임 안내</div><div class="guide-grid"><div><span>01</span><strong>편하게 참여</strong><p>처음 오는 사람도 부담 없이 참여할 수 있도록 운영합니다.</p></div><div><span>02</span><strong>공지 우선</strong><p>날짜와 장소가 확정되면 이 페이지에서 확인할 수 있습니다.</p></div><div><span>03</span><strong>경기는 별도 공지</strong><p>친선 경기나 연습 경기는 일정이 잡히는 대로 함께 안내합니다.</p></div></div></div>
+    </section>
+    <section class="join-banner compact-banner"><div><p class="kicker">READY?</p><h2>같이 모여볼래요?</h2><p>당근 모임 가입부터 시작하면 됩니다.</p></div><a class="join-button" href="https://onlycomputeronly-source.github.io/gwangnaru-rivers-join/" target="_blank" rel="noopener">가입 안내 <span>↗</span></a></section>
+  </main>
+  <footer><div class="footer-brand">GANGNARU <strong>RIVERS</strong></div><p>광나루를 중심으로 모이고, 같이 뛰는 야구 모임</p><small>© 2026 GANGNARU RIVERS</small></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="config.js"></script><script src="app.js"></script>
+  <script>
+    const menuToggle=document.getElementById('menuToggle'),menuClose=document.getElementById('menuClose'),menuBackdrop=document.getElementById('menuBackdrop'),sideMenu=document.getElementById('sideMenu');
+    function setMenu(open){sideMenu.classList.toggle('open',open);menuBackdrop.classList.toggle('show',open);menuToggle.classList.toggle('active',open);menuToggle.setAttribute('aria-expanded',String(open));sideMenu.setAttribute('aria-hidden',String(!open));document.body.classList.toggle('menu-open',open)}
+    menuToggle.addEventListener('click',()=>setMenu(!sideMenu.classList.contains('open')));menuClose.addEventListener('click',()=>setMenu(false));menuBackdrop.addEventListener('click',()=>setMenu(false));document.querySelectorAll('.side-menu a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+
+    function add(text, tag='p', cls=''){const el=document.createElement(tag);if(cls)el.className=cls;el.textContent=text;return el;}
+    (async()=>{const list=document.getElementById('meetupList');const meetups=await getMeetups();list.innerHTML='';if(!meetups.length){const empty=document.createElement('div');empty.className='empty-state';empty.append(add('—','div','empty-number'));empty.append(add('아직 등록된 모임 일정이 없습니다.','h3'));empty.append(add('새 일정이 등록되면 이곳에서 바로 확인할 수 있습니다.'));list.append(empty);return;}meetups.forEach((m,i)=>{const article=document.createElement('article');article.className=`meetup-item ${m.status==='완료'?'done':''}`;const idx=add(String(i+1).padStart(2,'0'),'div','meetup-index');const dateBlock=document.createElement('div');dateBlock.className='meetup-date-block';dateBlock.append(add(m.month||'','span'),add(m.day||'','strong'));const main=document.createElement('div');main.className='meetup-main';const top=document.createElement('div');top.className='meetup-topline';top.append(add(m.type,'span','meetup-type'),add(m.status,'span','meetup-status'));main.append(top,add(m.title,'h3'),add(m.note,'p'));const info=document.createElement('div');info.className='meetup-info';for(const [label,value] of [['TIME',m.time],['PLACE',m.place]]){const box=document.createElement('div');box.append(add(label,'small'),add(value,'strong'));info.append(box);}article.append(idx,dateBlock,main,info);list.append(article)});})();
+  </script>
+</body>
+</html>
