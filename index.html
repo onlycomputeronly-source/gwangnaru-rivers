@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>광나루 리버스 | 사회인 야구단</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="#home"><span id="logoName">GANGNARU</span> <b>RIVERS</b></a>
+  <button class="menu-btn">☰</button>
+  <nav class="nav">
+    <a href="#about">팀 소개</a>
+    <a href="#schedule">경기 일정</a>
+    <a href="#players">선수단</a>
+    <a href="#stats">팀 기록</a>
+    <a href="#gallery">갤러리</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-shape"></div>
+  <div class="hero-content">
+    <p class="eyebrow">AMATEUR BASEBALL CLUB</p>
+    <h1><span>GANGNARU</span><br><strong>RIVERS</strong></h1>
+    <p id="slogan" class="hero-copy"></p>
+    <div class="hero-buttons">
+      <a href="#about" class="btn primary">팀 알아보기</a>
+      <a href="#schedule" class="btn outline">경기 일정</a>
+    </div>
+  </div>
+  <div class="watermark">R</div>
+</section>
+
+<section id="about" class="section">
+  <div class="section-label">01 / ABOUT</div>
+  <div class="title-row">
+    <div><p class="eyebrow">WHO WE ARE</p><h2>광나루 리버스</h2></div>
+    <p class="section-desc">야구를 좋아한다는 하나의 이유로 모여,<br>경기장 위에서 새로운 순간을 만들어갑니다.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-card">
+      <span>TEAM</span>
+      <strong>GANGNARU<br>RIVERS</strong>
+      <p id="aboutSlogan"></p>
+    </div>
+    <div class="info-grid" id="teamInfo"></div>
+  </div>
+</section>
+
+<section id="schedule" class="section dark">
+  <div class="section-label">02 / GAME DAY</div>
+  <div class="title-row">
+    <div><p class="eyebrow">GAME SCHEDULE</p><h2>경기 일정</h2></div>
+    <p class="section-desc">관리 파일에서 경기 정보를 쉽게 수정할 수 있습니다.</p>
+  </div>
+  <div class="next-game">
+    <div>
+      <span class="tag">NEXT GAME</span>
+      <p id="nextDate" class="date"></p>
+      <h3>광나루 리버스 <small>VS</small> <span id="nextOpponent"></span></h3>
+      <p id="nextVenue" class="venue"></p>
+    </div>
+    <div class="big-vs">VS</div>
+  </div>
+  <div class="results" id="results"></div>
+</section>
+
+<section id="players" class="section">
+  <div class="section-label">03 / ROSTER</div>
+  <div class="title-row">
+    <div><p class="eyebrow">TEAM ROSTER</p><h2>선수단</h2></div>
+    <p class="section-desc">config.js에서 선수 이름과 등번호를 수정하세요.</p>
+  </div>
+  <div class="players" id="playersList"></div>
+</section>
+
+<section id="stats" class="section stats">
+  <div class="section-label">04 / SEASON</div>
+  <div class="title-row">
+    <div><p class="eyebrow" id="seasonLabel"></p><h2>팀 기록</h2></div>
+  </div>
+  <div class="stat-grid" id="statsGrid"></div>
+</section>
+
+<section id="gallery" class="section">
+  <div class="section-label">05 / GALLERY</div>
+  <div class="title-row">
+    <div><p class="eyebrow">MEMORIES</p><h2>갤러리</h2></div>
+    <p class="section-desc">images 폴더의 사진 파일을 교체하면 자동으로 바뀝니다.</p>
+  </div>
+  <div class="gallery" id="galleryList"></div>
+</section>
+
+<section class="join">
+  <div>
+    <p class="eyebrow">JOIN THE RIVERS</p>
+    <h2>같이 뛰고 싶다면?</h2>
+    <p>광나루 리버스와 함께할 선수를 기다립니다.</p>
+  </div>
+  <a id="emailBtn" class="btn dark-btn">가입 문의</a>
+</section>
+</main>
+
+<footer>
+  <div class="logo">GANGNARU <b>RIVERS</b></div>
+  <p>© 2026 GANGNARU RIVERS. All rights reserved.</p>
+</footer>
+
+<script src="config.js"></script>
+<script>
+document.title = SITE.teamName + " | 사회인 야구단";
+document.getElementById("slogan").textContent = SITE.slogan;
+document.getElementById("aboutSlogan").textContent = SITE.slogan;
+document.getElementById("teamInfo").innerHTML = `
+  <div><span>활동 지역</span><strong>${SITE.info.area}</strong></div>
+  <div><span>종목</span><strong>${SITE.info.sport}</strong></div>
+  <div><span>TEAM</span><strong>${SITE.englishName}</strong></div>
+  <div><span>STATUS</span><strong>${SITE.info.status}</strong></div>
+`;
+
+document.getElementById("nextDate").textContent = SITE.nextGame.date;
+document.getElementById("nextOpponent").textContent = SITE.nextGame.opponent;
+document.getElementById("nextVenue").textContent = "📍 " + SITE.nextGame.venue;
+
+document.getElementById("results").innerHTML = SITE.results.map(g => `
+  <div class="result">
+    <span>${g.date}</span><b>${g.home}</b><em>${g.score}</em><b>${g.away}</b><small class="${g.result === "패" ? "loss" : ""}">${g.result}</small>
+  </div>
+`).join("");
+
+document.getElementById("playersList").innerHTML = SITE.players.map((p, i) => `
+  <article class="player">
+    <div class="number">${String(i + 1).padStart(2, "0")}</div>
+    <div class="player-info">
+      <span>${p.position} / #${p.number}</span>
+      <h3>${p.name}</h3>
+      <p>${p.position} · ${p.batting}</p>
+    </div>
+  </article>
+`).join("");
+
+document.getElementById("seasonLabel").textContent = SITE.season + " SEASON";
+const statItems = [
+  ["경기", SITE.stats.games], ["승", SITE.stats.wins], ["무", SITE.stats.draws],
+  ["패", SITE.stats.losses], ["승률", SITE.stats.winRate]
+];
+document.getElementById("statsGrid").innerHTML = statItems.map(x =>
+  `<div class="stat"><strong>${x[1]}</strong><span>${x[0]}</span></div>`
+).join("");
+
+document.getElementById("galleryList").innerHTML = SITE.gallery.map((g, i) => `
+  <div class="gallery-item gallery-${i}" style="background-image:url('${g.image}')"><span>${g.title}</span></div>
+`).join("");
+
+document.getElementById("emailBtn").href = SITE.joinLink;
+
+const menu = document.querySelector(".menu-btn");
+const nav = document.querySelector(".nav");
+menu.onclick = () => nav.classList.toggle("open");
+document.querySelectorAll(".nav a").forEach(a => a.onclick = () => nav.classList.remove("open"));
+</script>
+</body>
+</html>
